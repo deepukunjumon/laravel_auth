@@ -1,0 +1,31 @@
+<?php
+
+use App\Models\AuditLog;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function store($action, $description, $changes = null)
+    {
+        $log = new AuditLog();
+        $log->user_id = Auth::id();
+        $log->action = $action;
+        $log->description = $description;
+        $log->changes = $changes ? json_encode($changes) : null;
+        $log->save();
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('audit_logs');
+    }
+};
