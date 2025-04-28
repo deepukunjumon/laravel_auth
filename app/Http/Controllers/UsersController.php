@@ -76,7 +76,6 @@ class UsersController extends Controller
             ], 400);
         }
 
-        $deletedUserStatus = getStatusValue('user', 'Deleted');
         $user = User::find($id);
 
         if (!$user) {
@@ -86,19 +85,87 @@ class UsersController extends Controller
             ], 404);
         }
 
-        if ($user->status == $deletedUserStatus) {
+        if ($user->status == USER_STATUS_VALUES['Deleted']) {
             return response()->json([
                 'success' => false,
                 'message' => 'User is Already Deleted!'
             ], 400);
         }
 
-        $user->status = $deletedUserStatus;
+        $user->status = USER_STATUS_VALUES['Deleted'];
         $user->save();
 
         return response()->json([
             'success' => true,
             'message' => 'User Deleted Successfully'
+        ], 200);
+    }
+
+    public function disableUser($id)
+    {
+        if (!$id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User ID is required'
+            ], 400);
+        }
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        if ($user->status == USER_STATUS_VALUES['Disabled']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User is Already Disabled!'
+            ], 400);
+        }
+
+        $user->status = USER_STATUS_VALUES['Disabled'];
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User Disabled Successfully'
+        ], 200);
+    }
+
+    public function enableUSer($id)
+    {
+        if (!$id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User ID is required'
+            ], 400);
+        }
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        if ($user->status == USER_STATUS_VALUES['Active']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User is Already Active!'
+            ], 400);
+        }
+
+        $user->status = USER_STATUS_VALUES['Active'];
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User Enabled Successfully'
         ], 200);
     }
 

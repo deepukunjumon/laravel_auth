@@ -23,8 +23,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/dashboard', [UsersController::class, 'adminDashboard']);
     Route::get('/users', [UsersController::class, 'getUsers']);
     Route::get('/get/user/{id}', [UsersController::class, 'getUserDetails']);
+    Route::get('/admin/users/profile/{id}', [UsersController::class, 'getUserDetails']);
     Route::post('/update/user/{id}', [UsersController::class, 'updateUserDetails']);
     Route::post('/change/user/role', [UsersController::class, 'changeUserRole']);
     Route::post('/delete/user/{id}', [UsersController::class, 'deleteUser']);
+    Route::post('/disable/user/{id}', [UsersController::class, 'disableUser']);
+    Route::post('/enable/user/{id}', [UsersController::class, 'enableUser']);
     Route::post('/add/user', [UsersController::class, 'addUser']);
 });
+
