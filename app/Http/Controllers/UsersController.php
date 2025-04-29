@@ -250,7 +250,7 @@ class UsersController extends Controller
             ];
 
             // Get counts for each status
-            $statusCounts = \App\Models\User::selectRaw('status, COUNT(*) as count')
+            $statusCounts = User::selectRaw('status, COUNT(*) as count')
                 ->whereIn('status', array_keys($statusMap))
                 ->groupBy('status')
                 ->pluck('count', 'status');
