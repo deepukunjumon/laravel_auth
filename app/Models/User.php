@@ -6,8 +6,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Spatie\Activitylog\LogOptions;
+use Ramsey\Uuid\Guid\Guid;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -50,6 +52,17 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    // Generate UUID before saving the user
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->id)) {
+                $user->id = (string) Str::uuid();  // Generate UUID for user ID
+            }
+        });
+    }
     public function getJWTIdentifier(): string
     {
         return $this->getKey();

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Illuminate\Support\Str;
 
 require_once app_path('Common/Constants.php');
 class UserSeeder extends Seeder
@@ -20,6 +21,7 @@ class UserSeeder extends Seeder
             // Generate 10 fake users
             foreach (range(1, 100) as $index) {
                 DB::table('users')->insert([
+                    'id' => (string) Str::uuid(),
                     'name' => $faker->name,
                     'email' => $faker->unique()->safeEmail,
                     'password' => bcrypt(USER_DEFAULT_PASSWORD),
